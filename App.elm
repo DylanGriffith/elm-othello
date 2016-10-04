@@ -2,6 +2,7 @@ import Html exposing (..)
 import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import List exposing (map)
 import Task
 
 main =
@@ -12,15 +13,27 @@ main =
     , subscriptions = subscriptions
     }
 
+type Cell = Empty | Black | White
 
 -- MODEL
 
 type alias Model =
   {
+    cells : List (List Cell)
   }
+
+initialCells =
+  [
+      [Empty, Black, White, Empty]
+    , [Empty, Black, White, Empty]
+    , [Empty, Black, White, Empty]
+    , [Empty, Black, White, Empty]
+  ]
+
+
 init : (Model, Cmd Msg)
 init =
-  (Model, Cmd.none )
+  ({cells = initialCells}, Cmd.none )
 
 -- UPDATE
 
@@ -36,33 +49,19 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  div []
-    [
-      row
-      , row
-      , row
-      , row
-      , row
-      , row
-      , row
-      , row
-      , row
-    ]
+  div [] (map renderCellRow model.cells)
 
-row =
-  div [(style [("float", "left")])] [
-    square
-    , square
-    , square
-    , square
-    , square
-    , square
-    , square
-    , square
-  ]
+renderCellRow cellRow =
+  div [(style [("clear", "both")])] (map renderCell cellRow)
 
-square =
- div [(style [ ("backgroundColor", "green"), ("height", "100px"), ("width", "100px")])] []
+renderCell a =
+  case a of
+    Empty ->
+      div [(style [ ("float", "left"), ("backgroundColor", "green"), ("height", "100px"), ("width", "100px")])] []
+    Black ->
+      div [(style [ ("float", "left"), ("backgroundColor", "black"), ("height", "100px"), ("width", "100px")])] []
+    White ->
+      div [(style [ ("float", "left"), ("backgroundColor", "white"), ("height", "100px"), ("width", "100px")])] []
 
 -- SUBSCRIPTIONS
 
