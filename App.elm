@@ -4,6 +4,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import List exposing (map)
 import Task
+import Drawings exposing (..)
 
 main =
   App.program
@@ -24,10 +25,14 @@ type alias Model =
 
 initialCells =
   [
-      [Empty, Black, White, Empty]
-    , [Empty, Black, White, Empty]
-    , [Empty, Black, White, Empty]
-    , [Empty, Black, White, Empty]
+      [Empty, Black, White, Empty, Empty, Black, White, Empty]
+      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
+      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
+      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
+      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
+      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
+      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
+      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
   ]
 
 
@@ -49,19 +54,19 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  div [] (map renderCellRow model.cells)
+  div [(style [("font-size", "0")])] (map renderCellRow model.cells)
 
 renderCellRow cellRow =
-  div [(style [("clear", "both")])] (map renderCell cellRow)
+  div [] (map renderCell cellRow)
 
 renderCell a =
   case a of
     Empty ->
-      div [(style [ ("float", "left"), ("backgroundColor", "green"), ("height", "100px"), ("width", "100px")])] []
+      drawEmpty
     Black ->
-      div [(style [ ("float", "left"), ("backgroundColor", "black"), ("height", "100px"), ("width", "100px")])] []
+      drawBlack
     White ->
-      div [(style [ ("float", "left"), ("backgroundColor", "white"), ("height", "100px"), ("width", "100px")])] []
+      drawWhite
 
 -- SUBSCRIPTIONS
 
