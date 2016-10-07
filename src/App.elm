@@ -2,9 +2,10 @@ import Html exposing (..)
 import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import List exposing (map)
+import Array as A
 import Task
 import Drawings exposing (..)
+import Game
 
 main =
   App.program
@@ -14,27 +15,15 @@ main =
     , subscriptions = subscriptions
     }
 
-type Cell = Empty | Black | White
-
 -- MODEL
 
 type alias Model =
   {
-    cells : List (List Cell)
+    cells : Game.Board
   }
 
 initialCells =
-  [
-      [Empty, Black, White, Empty, Empty, Black, White, Empty]
-      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
-      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
-      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
-      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
-      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
-      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
-      , [Empty, Black, White, Empty, Empty, Black, White, Empty]
-  ]
-
+  Game.emptyBoard
 
 init : (Model, Cmd Msg)
 init =
@@ -54,18 +43,18 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  div [(style [("font-size", "0")])] (map renderCellRow model.cells)
+  div [(style [("font-size", "0")])] (A.toList (A.map renderCellRow model.cells))
 
 renderCellRow cellRow =
-  div [] (map renderCell cellRow)
+  div [] (A.toList (A.map renderCell cellRow))
 
 renderCell a =
   case a of
-    Empty ->
+    Game.Empty ->
       drawEmpty
-    Black ->
+    Game.Black ->
       drawBlack
-    White ->
+    Game.White ->
       drawWhite
 
 -- SUBSCRIPTIONS
