@@ -12,6 +12,6 @@ all =
       [ describe "addPiece"
         [ test "adds the black piece first" <|
           \() ->
-             Expect.equal (pieceAt (addPiece Board.emptyBoard White 6 4) 6 4) White
+             Expect.equal (pieceAt 6 4 (addPiece White 6 4 Board.emptyBoard)) White
         ]
       ]

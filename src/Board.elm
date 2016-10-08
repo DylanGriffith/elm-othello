@@ -5,8 +5,8 @@ type Cell = Empty | Black | White
 
 type alias Board = Array (Array Cell)
 
-pieceAt : Board -> Int -> Int -> Cell
-pieceAt board row col =
+pieceAt : Int -> Int -> Board -> Cell
+pieceAt row col board  =
   case get row board of
     Just r ->
       case get col r of
@@ -17,8 +17,8 @@ pieceAt board row col =
     Nothing ->
       Empty
 
-addPiece : Board -> Cell -> Int -> Int -> Board
-addPiece board piece row col =
+addPiece : Cell -> Int -> Int -> Board -> Board
+addPiece piece row col board =
   case get row board of
     Just r ->
       set row (set col piece r) board
