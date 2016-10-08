@@ -5,7 +5,9 @@ import Html.Events exposing (..)
 import Array as A
 import Task
 import Drawings exposing (..)
-import Board
+import Game exposing (..)
+import Board exposing (Cell(..))
+import Board exposing (..)
 
 main =
   App.program
@@ -19,15 +21,12 @@ main =
 
 type alias Model =
   {
-    cells : Game.Board
+    game : Game.Game
   }
-
-initialCells =
-  Game.emptyBoard
 
 init : (Model, Cmd Msg)
 init =
-  ({cells = initialCells}, Cmd.none )
+  ({game = newGame}, Cmd.none )
 
 -- UPDATE
 
@@ -43,18 +42,18 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-  div [(style [("font-size", "0")])] (A.toList (A.map renderCellRow model.cells))
+  div [(style [("font-size", "0")])] (A.toList (A.map renderCellRow model.game.board))
 
 renderCellRow cellRow =
   div [] (A.toList (A.map renderCell cellRow))
 
 renderCell a =
   case a of
-    Game.Empty ->
+    Empty ->
       drawEmpty
-    Game.Black ->
+    Black ->
       drawBlack
-    Game.White ->
+    White ->
       drawWhite
 
 -- SUBSCRIPTIONS
