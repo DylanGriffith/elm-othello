@@ -5,7 +5,7 @@ import Html.Events exposing (..)
 import Array as A
 import Task
 import Drawings exposing (..)
-import Game
+import Board
 
 main =
   App.program

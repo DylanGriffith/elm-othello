@@ -1,4 +1,4 @@
-module Game exposing (..)
+module Board exposing (..)
 import Array exposing (..)
 
 type Cell = Empty | Black | White

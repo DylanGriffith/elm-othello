@@ -3,15 +3,15 @@ module Tests exposing (..)
 import Test exposing (..)
 import Expect
 import String
-import Game exposing (Cell(..))
-import Game exposing (..)
+import Board exposing (Cell(..))
+import Board exposing (..)
 
 all : Test
 all =
-    describe "Game"
+    describe "Board"
       [ describe "addPiece"
         [ test "adds the black piece first" <|
           \() ->
-             Expect.equal (pieceAt (addPiece Game.emptyBoard 6 4) 6 4) Black
+             Expect.equal (pieceAt (addPiece Board.emptyBoard 6 4) 6 4) Black
         ]
       ]
