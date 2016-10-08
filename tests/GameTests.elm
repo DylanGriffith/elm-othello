@@ -10,9 +10,9 @@ all =
   describe "Game"
     [ describe "newGame"
       [
-        test "starts with black's turn" <|
+        test "starts with black player's turn" <|
           \() ->
-            Expect.equal (nextTurn newGame) Black
+            Expect.equal (nextTurn newGame) BlackPlayer
         , test "starts with white in 3,3" <|
           \() ->
             Expect.equal (pieceAt 3 3 (board newGame)) White
@@ -25,5 +25,14 @@ all =
         , test "starts with black in 4,3" <|
           \() ->
             Expect.equal (pieceAt 4 3 (board newGame)) Black
+      ]
+    , describe "makeMove"
+      [
+        test "adds black piece" <|
+          \() ->
+            Expect.equal (boardPieceAt 4 5 (makeMove 4 5 newGame)) Black
+        , test "switches turn to white player" <|
+          \() ->
+            Expect.equal (nextTurn (makeMove 4 5 newGame)) WhitePlayer
       ]
     ]

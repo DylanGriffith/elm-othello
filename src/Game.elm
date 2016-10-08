@@ -3,14 +3,30 @@ import Board exposing (..)
 
 type alias Game =
   {
+    currentTurn: Player,
     board : Board
   }
 
-nextTurn game =
-  Black
+type Player = BlackPlayer | WhitePlayer
 
+type alias Move = (Int, Int)
+
+nextTurn game =
+  game.currentTurn
+
+toggleTurn game =
+  case game.currentTurn of
+    BlackPlayer ->
+      { game | currentTurn = WhitePlayer }
+    WhitePlayer ->
+      { game | currentTurn = BlackPlayer }
+
+newGame : Game
 newGame =
-  { board = initalBoard }
+  {
+    currentTurn = BlackPlayer,
+    board = initalBoard
+  }
 
 initalBoard =
   emptyBoard
@@ -21,3 +37,18 @@ initalBoard =
 
 board game =
   game.board
+
+makeMove : Int -> Int -> Game -> Game
+makeMove row col game =
+  { game | board = (addPiece (pieceFor (nextTurn game)) row col game.board) }
+    |> toggleTurn
+
+boardPieceAt row col game =
+  pieceAt row col game.board
+
+pieceFor player =
+  case player of
+    BlackPlayer ->
+      Black
+    WhitePlayer ->
+      White

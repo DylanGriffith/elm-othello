@@ -30,27 +30,27 @@ init =
 
 -- UPDATE
 
-type Msg = NoMessageYet
+type Msg = AddPiece Int Int
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
   case msg of
-    NoMessageYet ->
-      (model, Cmd.none)
+    AddPiece row col ->
+      ({model | game = (makeMove row col model.game)}, Cmd.none)
 
 -- VIEW
 
 view : Model -> Html Msg
 view model =
-  div [(style [("font-size", "0")])] (A.toList (A.map renderCellRow model.game.board))
+  div [(style [("font-size", "0")])] (A.toList (A.indexedMap renderCellRow model.game.board))
 
-renderCellRow cellRow =
-  div [] (A.toList (A.map renderCell cellRow))
+renderCellRow row cells =
+  div [] (A.toList (A.indexedMap (renderCell row) cells))
 
-renderCell a =
-  case a of
+renderCell row col cell =
+  case cell of
     Empty ->
-      drawEmpty
+      drawEmpty (AddPiece row col)
     Black ->
       drawBlack
     White ->
