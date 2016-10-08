@@ -17,11 +17,11 @@ pieceAt board row col =
     Nothing ->
       Empty
 
-addPiece : Board -> Int -> Int -> Board
-addPiece board row col =
+addPiece : Board -> Cell -> Int -> Int -> Board
+addPiece board piece row col =
   case get row board of
     Just r ->
-      set row (set col Black r) board
+      set row (set col piece r) board
     Nothing ->
       board
 
