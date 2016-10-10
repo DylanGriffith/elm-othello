@@ -17,8 +17,8 @@ pieceAt row col board  =
     Nothing ->
       Empty
 
-addPiece : Cell -> Int -> Int -> Board -> Board
-addPiece piece row col board =
+setCell : Cell -> Int -> Int -> Board -> Board
+setCell piece row col board =
   case get row board of
     Just r ->
       set row (set col piece r) board

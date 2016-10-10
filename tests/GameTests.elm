@@ -81,10 +81,10 @@ isValidMoveTest4 =
 isValidMoveTest5 =
   let
     board = newGame.board
-     |> addPiece Black 4 4
-     |> addPiece Black 4 2
-     |> addPiece Black 4 1
-     |> addPiece White 4 0
+     |> setCell Black 4 4
+     |> setCell Black 4 2
+     |> setCell Black 4 1
+     |> setCell White 4 0
     game = { currentTurn = WhitePlayer, board = board }
   in
     test "isValidMove 5" <|
@@ -94,8 +94,8 @@ isValidMoveTest5 =
 isValidMoveTest6 =
   let
     board = newGame.board
-     |> addPiece White 2 2
-     |> addPiece Black 1 1
+     |> setCell White 2 2
+     |> setCell Black 1 1
     game = { currentTurn = BlackPlayer, board = board }
   in
     test "isValidMove 6" <|
@@ -105,10 +105,10 @@ isValidMoveTest6 =
 isValidMoveTest7 =
   let
     board = newGame.board
-     |> addPiece Black 4 4
-     |> addPiece Black 4 2
-     |> addPiece Black 4 1
-     |> addPiece White 4 5
+     |> setCell Black 4 4
+     |> setCell Black 4 2
+     |> setCell Black 4 1
+     |> setCell White 4 5
     game = { currentTurn = WhitePlayer, board = board }
   in
     test "isValidMove 7" <|
@@ -118,9 +118,9 @@ isValidMoveTest7 =
 isValidMoveTest8 =
   let
     board = newGame.board
-     |> addPiece White 2 2
-     |> addPiece White 5 5
-     |> addPiece Black 6 6
+     |> setCell White 2 2
+     |> setCell White 5 5
+     |> setCell Black 6 6
     game = { currentTurn = BlackPlayer, board = board }
   in
     test "isValidMove 8: flank bottom right" <|
@@ -130,9 +130,9 @@ isValidMoveTest8 =
 isValidMoveTest9 =
   let
     board = newGame.board
-     |> addPiece Black 5 2
-     |> addPiece Black 2 5
-     |> addPiece White 6 1
+     |> setCell Black 5 2
+     |> setCell Black 2 5
+     |> setCell White 6 1
     game = { currentTurn = WhitePlayer, board = board }
   in
     test "isValidMove 9: flank bottom left" <|
@@ -142,9 +142,9 @@ isValidMoveTest9 =
 isValidMoveTest10 =
   let
     board = newGame.board
-     |> addPiece Black 5 2
-     |> addPiece Black 2 5
-     |> addPiece White 1 6
+     |> setCell Black 5 2
+     |> setCell Black 2 5
+     |> setCell White 1 6
     game = { currentTurn = WhitePlayer, board = board }
   in
     test "isValidMove 10: flank top right" <|
@@ -154,10 +154,10 @@ isValidMoveTest10 =
 isValidMoveTest11 =
   let
     board = newGame.board
-     |> addPiece White 4 4
-     |> addPiece White 5 4
-     |> addPiece White 6 4
-     |> addPiece Black 3 4
+     |> setCell White 4 4
+     |> setCell White 5 4
+     |> setCell White 6 4
+     |> setCell Black 3 4
     game = { currentTurn = BlackPlayer, board = board }
   in
     test "isValidMove 11: flank top" <|
@@ -167,10 +167,10 @@ isValidMoveTest11 =
 isValidMoveTest12 =
   let
     board = newGame.board
-     |> addPiece Black 4 4
-     |> addPiece Black 5 4
-     |> addPiece Black 6 4
-     |> addPiece White 7 4
+     |> setCell Black 4 4
+     |> setCell Black 5 4
+     |> setCell Black 6 4
+     |> setCell White 7 4
     game = { currentTurn = WhitePlayer, board = board }
   in
     test "isValidMove 12: flank bottom" <|

@@ -30,10 +30,10 @@ newGame =
 
 initalBoard =
   emptyBoard
-    |> addPiece White 3 3
-    |> addPiece White 4 4
-    |> addPiece Black 3 4
-    |> addPiece Black 4 3
+    |> setCell White 3 3
+    |> setCell White 4 4
+    |> setCell Black 3 4
+    |> setCell Black 4 3
 
 board game =
   game.board
@@ -48,7 +48,7 @@ makeMove row col game =
 
 actuallyMakeMove : Int -> Int -> Game -> Game
 actuallyMakeMove row col game =
-  { game | board = (addPiece (pieceFor (nextTurn game)) row col game.board) }
+  { game | board = (setCell (pieceFor (nextTurn game)) row col game.board) }
     |> toggleTurn
 
 boardPieceAt row col game =
