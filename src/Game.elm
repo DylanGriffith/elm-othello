@@ -55,158 +55,43 @@ boardPieceAt row col game =
   pieceAt row col game.board
 
 isValidMove row col game =
-  isFlankingToLeft row col game
-  || isFlankingToRight row col game
-  || isFlankingToBottom row col game
-  || isFlankingToTop row col game
-  || isFlankingToTopLeft row col game
-  || isFlankingToBottomRight row col game
-  || isFlankingToBottomLeft row col game
-  || isFlankingToTopRight row col game
+  isFlanking 0 1 row col game
+  || isFlanking 1 0 row col game
+  || isFlanking 1 1 row col game
+  || isFlanking 0 (-1) row col game
+  || isFlanking (-1) 0 row col game
+  || isFlanking (-1) (-1) row col game
+  || isFlanking (-1) 1 row col game
+  || isFlanking 1 (-1) row col game
 
-isFlankingToLeft row col game =
+isFlanking rowOff colOff row col game =
   let
     piece = pieceFor (nextTurn game)
     otherPiece = oppositePiece piece
   in
-    case row of
+    case row + rowOff of
       0 ->
         False
-      1 ->
-        False
-      _ ->
-        ((pieceAt row (col - 1) game.board) == otherPiece)
-         && (((pieceAt row (col - 2) game.board) == piece)
-              || isFlankingToLeft row (col - 1) game)
-
-isFlankingToRight row col game =
-  let
-    piece = pieceFor (nextTurn game)
-    otherPiece = oppositePiece piece
-  in
-    case row of
-      6 ->
+      (-1) ->
         False
       7 ->
         False
-      _ ->
-        ((pieceAt row (col + 1) game.board) == otherPiece)
-         && (((pieceAt row (col + 2) game.board) == piece)
-             || isFlankingToRight row (col + 1) game)
-
-isFlankingToTopLeft row col game =
-  let
-    piece = pieceFor (nextTurn game)
-    otherPiece = oppositePiece piece
-  in
-    case row of
-      0 ->
-        False
-      1 ->
+      8 ->
         False
       _ ->
-        case col of
+        case col + colOff of
           0 ->
             False
-          1 ->
-            False
-          _ ->
-            ((pieceAt (row - 1) (col - 1) game.board) == otherPiece)
-             && (((pieceAt (row - 2) (col - 2) game.board) == piece)
-                 || isFlankingToTopLeft (row - 1) (col - 1) game)
-
-isFlankingToBottomRight row col game =
-  let
-    piece = pieceFor (nextTurn game)
-    otherPiece = oppositePiece piece
-  in
-    case row of
-      6 ->
-        False
-      7 ->
-        False
-      _ ->
-        case col of
-          6 ->
+          (-1) ->
             False
           7 ->
             False
-          _ ->
-            ((pieceAt (row + 1) (col + 1) game.board) == otherPiece)
-             && (((pieceAt (row + 2) (col + 2) game.board) == piece)
-                 || isFlankingToBottomRight (row + 1) (col + 1) game)
-
-isFlankingToBottomLeft row col game =
-  let
-    piece = pieceFor (nextTurn game)
-    otherPiece = oppositePiece piece
-  in
-    case row of
-      6 ->
-        False
-      7 ->
-        False
-      _ ->
-        case col of
-          0 ->
-            False
-          1 ->
+          8 ->
             False
           _ ->
-            ((pieceAt (row + 1) (col - 1) game.board) == otherPiece)
-             && (((pieceAt (row + 2) (col - 2) game.board) == piece)
-                 || isFlankingToBottomLeft (row + 1) (col - 1) game)
-
-isFlankingToTopRight row col game =
-  let
-    piece = pieceFor (nextTurn game)
-    otherPiece = oppositePiece piece
-  in
-    case row of
-      0 ->
-        False
-      1 ->
-        False
-      _ ->
-        case col of
-          6 ->
-            False
-          7 ->
-            False
-          _ ->
-            ((pieceAt (row - 1) (col + 1) game.board) == otherPiece)
-             && (((pieceAt (row - 2) (col + 2) game.board) == piece)
-                 || isFlankingToTopRight (row - 1) (col + 1) game)
-
-isFlankingToBottom row col game =
-  let
-    piece = pieceFor (nextTurn game)
-    otherPiece = oppositePiece piece
-  in
-    case row of
-      6 ->
-        False
-      7 ->
-        False
-      _ ->
-        ((pieceAt (row + 1) col game.board) == otherPiece)
-         && (((pieceAt (row + 2) col game.board) == piece)
-             || isFlankingToBottom (row + 1) col game)
-
-isFlankingToTop row col game =
-  let
-    piece = pieceFor (nextTurn game)
-    otherPiece = oppositePiece piece
-  in
-    case row of
-      0 ->
-        False
-      1 ->
-        False
-      _ ->
-        ((pieceAt (row - 1) col game.board) == otherPiece)
-         && (((pieceAt (row - 2) col game.board) == piece)
-             || isFlankingToTop (row - 1) col game)
+            ((pieceAt (row + rowOff) (col + colOff) game.board) == otherPiece)
+             && (((pieceAt (row + 2*rowOff) (col + 2*colOff) game.board) == piece)
+                 || isFlanking rowOff colOff (row + rowOff) (col + colOff) game)
 
 oppositePiece piece =
   case piece of
