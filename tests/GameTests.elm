@@ -43,7 +43,18 @@ all =
       ]
     , describe "isValidMove"
       [
-        isValidMoveTest2
+        isValidMoveTest1
+        , isValidMoveTest2
+        , isValidMoveTest3
+        , isValidMoveTest4
+        , isValidMoveTest5
+        , isValidMoveTest6
+        , isValidMoveTest7
+        , isValidMoveTest8
+        , isValidMoveTest9
+        , isValidMoveTest10
+        , isValidMoveTest11
+        , isValidMoveTest12
       ]
     ]
 
@@ -66,3 +77,102 @@ isValidMoveTest4 =
   test "isValidMove 4" <|
     \() ->
       Expect.equal (isValidMove 5 3 newGame) False
+
+isValidMoveTest5 =
+  let
+    board = newGame.board
+     |> addPiece Black 4 4
+     |> addPiece Black 4 2
+     |> addPiece Black 4 1
+     |> addPiece White 4 0
+    game = { currentTurn = WhitePlayer, board = board }
+  in
+    test "isValidMove 5" <|
+      \() ->
+        Expect.equal (isValidMove 4 5 game) True
+
+isValidMoveTest6 =
+  let
+    board = newGame.board
+     |> addPiece White 2 2
+     |> addPiece Black 1 1
+    game = { currentTurn = BlackPlayer, board = board }
+  in
+    test "isValidMove 6" <|
+      \() ->
+        Expect.equal (isValidMove 5 5 game) True
+
+isValidMoveTest7 =
+  let
+    board = newGame.board
+     |> addPiece Black 4 4
+     |> addPiece Black 4 2
+     |> addPiece Black 4 1
+     |> addPiece White 4 5
+    game = { currentTurn = WhitePlayer, board = board }
+  in
+    test "isValidMove 7" <|
+      \() ->
+        Expect.equal (isValidMove 4 0 game) True
+
+isValidMoveTest8 =
+  let
+    board = newGame.board
+     |> addPiece White 2 2
+     |> addPiece White 5 5
+     |> addPiece Black 6 6
+    game = { currentTurn = BlackPlayer, board = board }
+  in
+    test "isValidMove 8: flank bottom right" <|
+      \() ->
+        Expect.equal (isValidMove 1 1 game) True
+
+isValidMoveTest9 =
+  let
+    board = newGame.board
+     |> addPiece Black 5 2
+     |> addPiece Black 2 5
+     |> addPiece White 6 1
+    game = { currentTurn = WhitePlayer, board = board }
+  in
+    test "isValidMove 9: flank bottom left" <|
+      \() ->
+        Expect.equal (isValidMove 1 6 game) True
+
+isValidMoveTest10 =
+  let
+    board = newGame.board
+     |> addPiece Black 5 2
+     |> addPiece Black 2 5
+     |> addPiece White 1 6
+    game = { currentTurn = WhitePlayer, board = board }
+  in
+    test "isValidMove 10: flank top right" <|
+      \() ->
+        Expect.equal (isValidMove 6 1 game) True
+
+isValidMoveTest11 =
+  let
+    board = newGame.board
+     |> addPiece White 4 4
+     |> addPiece White 5 4
+     |> addPiece White 6 4
+     |> addPiece Black 3 4
+    game = { currentTurn = BlackPlayer, board = board }
+  in
+    test "isValidMove 11: flank top" <|
+      \() ->
+        Expect.equal (isValidMove 7 4 game) True
+
+isValidMoveTest12 =
+  let
+    board = newGame.board
+     |> addPiece Black 4 4
+     |> addPiece Black 5 4
+     |> addPiece Black 6 4
+     |> addPiece White 7 4
+    game = { currentTurn = WhitePlayer, board = board }
+  in
+    test "isValidMove 12: flank bottom" <|
+      \() ->
+        Expect.equal (isValidMove 3 4 game) True
