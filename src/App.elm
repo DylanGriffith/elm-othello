@@ -1,5 +1,4 @@
 import Html exposing (..)
-import Html.App as App
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Array as A
@@ -10,7 +9,7 @@ import Board exposing (Cell(..))
 import Board exposing (..)
 
 main =
-  App.program
+  Html.program
     { init = init
     , view = view
     , update = update
