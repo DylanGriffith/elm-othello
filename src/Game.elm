@@ -9,7 +9,7 @@ type alias Game =
 
 type Player = BlackPlayer | WhitePlayer
 
-type alias Move = (Int, Int)
+type alias CellPair = (Int, Int)
 
 nextTurn game =
   game.currentTurn
@@ -40,11 +40,19 @@ board game =
 
 makeMove : Int -> Int -> Game -> Game
 makeMove row col game =
-  case isValidMove row col game of
-    True ->
-      actuallyMakeMove row col game
-    False ->
+  case flippedPieces row col game of
+    [] ->
       game
+    flipped ->
+      makeFlips flipped (actuallyMakeMove row col game)
+
+makeFlips : List CellPair -> Game -> Game
+makeFlips flipped game =
+  List.foldr makeFlip game flipped
+
+makeFlip : CellPair -> Game -> Game
+makeFlip (row, col) game =
+  {game | board = setCell (oppositePiece (pieceAt row col game.board)) row col game.board}
 
 actuallyMakeMove : Int -> Int -> Game -> Game
 actuallyMakeMove row col game =
@@ -54,44 +62,59 @@ actuallyMakeMove row col game =
 boardPieceAt row col game =
   pieceAt row col game.board
 
-isValidMove row col game =
-  isFlanking 0 1 row col game
-  || isFlanking 1 0 row col game
-  || isFlanking 1 1 row col game
-  || isFlanking 0 (-1) row col game
-  || isFlanking (-1) 0 row col game
-  || isFlanking (-1) (-1) row col game
-  || isFlanking (-1) 1 row col game
-  || isFlanking 1 (-1) row col game
+flippedPieces : Int -> Int -> Game -> List (Int, Int)
+flippedPieces row col game =
+  flanked 0 1 row col game
+  ++ flanked 1 0 row col game
+  ++ flanked 1 1 row col game
+  ++ flanked 0 (-1) row col game
+  ++ flanked (-1) 0 row col game
+  ++ flanked (-1) (-1) row col game
+  ++ flanked (-1) 1 row col game
+  ++ flanked 1 (-1) row col game
 
-isFlanking rowOff colOff row col game =
+isValidMove row col game =
+  flippedPieces row col game /= []
+
+flanked : Int -> Int -> Int -> Int -> Game -> List (Int, Int)
+flanked rowOff colOff row col game =
   let
     piece = pieceFor (nextTurn game)
     otherPiece = oppositePiece piece
   in
     case row + rowOff of
       0 ->
-        False
+        []
       (-1) ->
-        False
+        []
       7 ->
-        False
+        []
       8 ->
-        False
+        []
       _ ->
         case col + colOff of
           0 ->
-            False
+            []
           (-1) ->
-            False
+            []
           7 ->
-            False
+            []
           8 ->
-            False
+            []
           _ ->
-            ((pieceAt (row + rowOff) (col + colOff) game.board) == otherPiece)
-             && (((pieceAt (row + 2*rowOff) (col + 2*colOff) game.board) == piece)
-                 || isFlanking rowOff colOff (row + rowOff) (col + colOff) game)
+            case (pieceAt (row + rowOff) (col + colOff) game.board) == otherPiece of
+              True ->
+                case ((pieceAt (row + 2*rowOff) (col + 2*colOff) game.board) == piece) of
+                  True ->
+                    [(row + rowOff, col + colOff)]
+                  False ->
+                    case flanked rowOff colOff (row + rowOff) (col + colOff) game of
+                      [] ->
+                        []
+                      flipped ->
+                        [(row + rowOff, col + colOff)] ++ flipped
+              False ->
+                []
 
 oppositePiece piece =
   case piece of

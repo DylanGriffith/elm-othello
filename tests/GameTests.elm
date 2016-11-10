@@ -34,6 +34,9 @@ all =
         , test "switches turn to white player" <|
           \() ->
             Expect.equal (nextTurn (makeMove 4 5 newGame)) WhitePlayer
+        , test "flips flanked pieces" <|
+          \() ->
+            Expect.equal (boardPieceAt 4 4 (makeMove 4 5 newGame)) Black
         , test "does not swap player with invalid move" <|
           \() ->
             Expect.equal (nextTurn (makeMove 2 4 newGame)) BlackPlayer
